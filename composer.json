@@ -1,0 +1,7 @@
+{
+    "require": {
+        "mnapoli/silly": "^1.1",
+        "google/apiclient": "^1.1",
+        "jwilsson/spotify-web-api-php": "^0.10.0"
+    }
+}
