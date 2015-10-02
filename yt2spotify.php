@@ -44,6 +44,16 @@ do {
     $nextPageToken = $playlistItemsResponse['nextPageToken'];
 } while ($nextPageToken != NULL);
 
-file_put_contents(implode("\n", pieces), data)
+file_put_contents('spotify-uris.txt', implode("\n", $result));
+
+if (stripos(php_uname(), 'darwin') !== false) {
+    echo PHP_EOL . "Done! - Now run the following command to copy your Spotify-URI-list to your clipboard: ";
+    echo PHP_EOL . PHP_EOL . "\033[32m cat spotify-uris.txt | pbcopy \033[0m" . PHP_EOL . PHP_EOL;
+} else {
+    echo PHP_EOL . "Done! - Now you have your Spotify-URIs in 'spotify-uris.txt'";
+}
+
+echo "Just paste them (from your clipboard) into your empty spotify playlist (must be a client, not the webplayer)";
+echo PHP_EOL;
 
 # https://www.youtube.com/playlist?list=PLhzswTGE9_z92Pm5HF-_A-YYR1dOuuUL-
