@@ -1,44 +1,44 @@
 <?php
-error_reporting(E_ERROR);
 require 'vendor/autoload.php';
-require 'config.php';
-if (gethostname() === 'CodeBrauer.local') {
-    include '../ref/ref.php';
-}
+
+use Acme\Args as Args;
+use Acme\Output as Output;
+
+// init everything!
+$config       = Spyc::YAMLLoad('config.yaml');
+$args         = new Args();
+$googleClient = new Google_Client();
+$googleClient->setDeveloperKey($config['google_developer_key']);
+$youtube      = new Google_Service_YouTube($googleClient);
 $spotifyAPI   = new SpotifyWebAPI\SpotifyWebAPI();
 
-$googleClient = new Google_Client();
-$googleClient->setDeveloperKey($config['google-developer-key']);
-$youtube      = new Google_Service_YouTube($googleClient);
+// set those 
+date_default_timezone_set($config['timezone']);
+set_exception_handler(['Acme\Error', 'handle']);
 
-if (php_sapi_name() !== 'cli') {
-    die('Run this script with your terminal. This not a php application for your webserver.' . PHP_EOL);
-}
+// for debug
+if (gethostname() === 'CodeBrauer.local') { include '../ref/ref.php'; }
 
-if (!isset($argv[1])) {
-    die('Please provide a YouTube Playlist ID or URL' . PHP_EOL);
-}
+$args->check();
+$url = $args->process();
 
-if (strpos($argv[1], 'youtube.com/playlist') === false) {
-    $url = $argv[1];
-} else {
-    $urlParts = parse_url($argv[1], PHP_URL_QUERY);
-    $url      = explode('=', $urlParts)[1];
-}
+// action start
 
+$nextPageToken = NULL;
 do {
     $playlistItemsResponse = $youtube->playlistItems->listPlaylistItems('snippet', array(
         'playlistId' => rawurlencode($url),
         'maxResults' => 50,
-        'pageToken' => $nextPageToken));
+        'pageToken'  => $nextPageToken));
+
     foreach ($playlistItemsResponse['items'] as $playlistItem) {
-        $trackName = str_ireplace($config['ignore-video-title'], '', $playlistItem['snippet']['title']);
+        $trackName = str_ireplace($config['ignore_video_title'], '', $playlistItem['snippet']['title']);
         $spotifyURI = $spotifyAPI->search(trim($trackName), 'track')->tracks->items[0]->uri;
         if (is_string($spotifyURI)) {
-            echo "\033[32m ✔ \033[0m" . $trackName . PHP_EOL;
+            Output::print($trackName, 'success');
             $result[] = $spotifyURI;
         } else {
-            echo "\033[31m ✖ \033[0m" . $trackName . PHP_EOL;
+            Output::print($trackName, 'fail');
         }
     }
     $nextPageToken = $playlistItemsResponse['nextPageToken'];
@@ -47,13 +47,15 @@ do {
 file_put_contents('spotify-uris.txt', implode("\n", $result));
 
 if (stripos(php_uname(), 'darwin') !== false) {
-    echo PHP_EOL . "Done! - Now run the following command to copy your Spotify-URI-list to your clipboard: ";
-    echo PHP_EOL . PHP_EOL . "\033[32m cat spotify-uris.txt | pbcopy \033[0m" . PHP_EOL . PHP_EOL;
+    Output::blankLine();
+    Output::print('Done! - Now run the following command to copy your Spotify-URI-list to your clipboard:');
+    Output::print('cat spotify-uris.txt | pbcopy', 'success');
 } else {
-    echo PHP_EOL . "Done! - Now you have your Spotify-URIs in 'spotify-uris.txt'";
+    Output::print('Done! - Now you have your Spotify-URIs in "spotify-uris.txt"', 'success');
 }
 
-echo "Just paste them (from your clipboard) into your empty spotify playlist (must be a client, not the webplayer)";
-echo PHP_EOL;
+Output::blankLine();
+Output::print('Just paste them (from your clipboard) into your empty spotify playlist (must be a client, not the webplayer)');
 
+# debug URL
 # https://www.youtube.com/playlist?list=PLhzswTGE9_z92Pm5HF-_A-YYR1dOuuUL-

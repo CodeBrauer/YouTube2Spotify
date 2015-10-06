@@ -1,6 +1,12 @@
 {
     "require": {
         "google/apiclient": "^1.1",
-        "jwilsson/spotify-web-api-php": "^0.10.0"
+        "jwilsson/spotify-web-api-php": "^0.10.0",
+        "mustangostang/spyc": "^0.5.1"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Acme\\" : "library/"
+        }
     }
 }
