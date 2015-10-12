@@ -27,8 +27,8 @@ $ php yt2spotify.php PL6D4C31FFA7EBABB5
 
 # How does it work?
 
-It's very simple - The scripts loads all video-titles (= name of the track) of the provided YouTube-playlist with the YouTube Data API v3 and searches this tracknames with Spotifys WebAPI - if the track was found the script will show you a green checkmark next to the title, if not - a red cross. All found Spotify-URIs (like `spotify:track:3VgNbGJAVtbT1afQiRBTX4` will be written per line in `spotify-uris.txt`) – Now you can just copy the contents of this file and paste it (from your clipboard) in an playlist in your spotify-client.
+It's very simple - The scripts loads all video-titles (= name of the track) of the provided YouTube-playlist with the YouTube Data API v3 and searches this tracknames with Spotifys WebAPI - if the track was found the script will show you a green checkmark next to the title, if not - a red cross. All found Spotify-URIs (like `spotify:track:3GfOAdcoc3X5GPiiXmpBjK` will be written per line in `spotify-uris.txt`) – Now you can just copy the contents of this file and paste it (from your clipboard) in an playlist in your spotify-client.
 
 **The problems:**
-- Some YouTube videos are not named very well - so some words must be ignored for the spotify search (like "lyrics", "HD", etc. - look at the `config.php`)
+- Some YouTube videos are not named very well - so some words must be ignored for the spotify search (like "lyrics", "HD", etc. - look at the `config.yml`)
 - Some special remixes/edits are not at the first search position on spotifys web api - so you get the official instead an radio edit.
