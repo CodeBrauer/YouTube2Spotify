@@ -15,8 +15,10 @@ Converts YouTube Playlists to Spotify URI lists - in your Terminal.
 # Usage
 
 ```sh
-$ php yt2spotify.php [YouTube Playlist-Link | YouTube Playlist-ID]
+$ php yt2spotify.php [YouTube playlist-URL | YouTube playlist-ID] [--copy]
 ```
+
+**Note:** `--copy` works only on Mac OS X with the [`pbcopy`](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/pbcopy.1.html)-binary
 
 Example:
 ```sh

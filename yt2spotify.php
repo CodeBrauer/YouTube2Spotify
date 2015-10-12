@@ -51,9 +51,9 @@ if (stripos(php_uname(), 'darwin') !== false) {
     if ($copy) {
         shell_exec('cat spotify-uris.txt | pbcopy');
         Output::put('Done! - Now you have your Spotify-URIs in your clipboard', 'success');
-        Output::put('cat spotify-uris.txt | pbcopy', 'success');
     } else {
         Output::put('Done! - Now run the following command to copy your Spotify-URI-list to your clipboard:');
+        Output::put('cat spotify-uris.txt | pbcopy', 'success');
     }
 } else {
     Output::put('Done! - Now you have your Spotify-URIs in "spotify-uris.txt"', 'success');
