@@ -33,10 +33,11 @@ do {
 
     foreach ($playlistItemsResponse['items'] as $playlistItem) {
         $trackName = str_ireplace($config['ignore_video_title'], '', $playlistItem['snippet']['title']);
-        $spotifyURI = $spotifyAPI->search(trim($trackName), 'track')->tracks->items[0]->uri;
-        if (is_string($spotifyURI)) {
+        $search = $spotifyAPI->search(trim($trackName), 'track');
+        if ($search->tracks->total > 0) {
+            $spotifyURI = $spotifyAPI->search(trim($trackName), 'track')->tracks->items[0]->uri;
+            $result[]   = $spotifyURI;
             Output::put($trackName, 'success');
-            $result[] = $spotifyURI;
         } else {
             Output::put($trackName, 'fail');
         }
