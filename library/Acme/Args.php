@@ -28,12 +28,17 @@ class Args
 
     public function process()
     {
+        $copy = false;
+        if (isset($this->argv[2]) && trim($this->argv[2]) == '--copy') {
+            $copy = true;
+        }
+
         if (strpos($this->argv[1], 'youtube.com/playlist') === false) {
-            return $this->argv[1];
+            return [$this->argv[1], $copy];
         }
 
         $urlParts = parse_url($this->argv[1], PHP_URL_QUERY);
         parse_str($urlParts, $query);
-        return $query['list'];
+        return [$query['list'], $copy];
     }
 }
