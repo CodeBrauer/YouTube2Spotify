@@ -8,7 +8,7 @@ namespace Acme;
 class Output
 {
 
-    public static function print($msg, $state = false)
+    public static function put($msg, $state = false)
     {
         $states = [
             'success' => "\033[32m ✔ \033[0m",

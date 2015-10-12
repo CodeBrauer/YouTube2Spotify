@@ -5,7 +5,7 @@
         "mustangostang/spyc": "^0.5.1"
     },
     "autoload": {
-        "psr-4" : {
+        "psr-0" : {
             "Acme\\" : "library/"
         }
     }

@@ -1,8 +1,8 @@
 <?php
 require 'vendor/autoload.php';
 
-use Acme\Args as Args;
-use Acme\Output as Output;
+use Acme\Args;
+use Acme\Output;
 
 // init everything!
 $config       = Spyc::YAMLLoad('config.yaml');
@@ -35,10 +35,10 @@ do {
         $trackName = str_ireplace($config['ignore_video_title'], '', $playlistItem['snippet']['title']);
         $spotifyURI = $spotifyAPI->search(trim($trackName), 'track')->tracks->items[0]->uri;
         if (is_string($spotifyURI)) {
-            Output::print($trackName, 'success');
+            Output::put($trackName, 'success');
             $result[] = $spotifyURI;
         } else {
-            Output::print($trackName, 'fail');
+            Output::put($trackName, 'fail');
         }
     }
     $nextPageToken = $playlistItemsResponse['nextPageToken'];
@@ -48,14 +48,14 @@ file_put_contents('spotify-uris.txt', implode("\n", $result));
 
 if (stripos(php_uname(), 'darwin') !== false) {
     Output::blankLine();
-    Output::print('Done! - Now run the following command to copy your Spotify-URI-list to your clipboard:');
-    Output::print('cat spotify-uris.txt | pbcopy', 'success');
+    Output::put('Done! - Now run the following command to copy your Spotify-URI-list to your clipboard:');
+    Output::put('cat spotify-uris.txt | pbcopy', 'success');
 } else {
-    Output::print('Done! - Now you have your Spotify-URIs in "spotify-uris.txt"', 'success');
+    Output::put('Done! - Now you have your Spotify-URIs in "spotify-uris.txt"', 'success');
 }
 
 Output::blankLine();
-Output::print('Just paste them (from your clipboard) into your empty spotify playlist (must be a client, not the webplayer)');
+Output::put('Just paste them (from your clipboard) into your empty spotify playlist (must be a client, not the webplayer)');
 
 # debug URL
 # https://www.youtube.com/playlist?list=PLhzswTGE9_z92Pm5HF-_A-YYR1dOuuUL-
