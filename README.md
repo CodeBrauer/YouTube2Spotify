@@ -1,6 +1,8 @@
 # YouTube2Spotify
 Converts YouTube Playlists to Spotify URI lists - in your Terminal.
 
+[![Code Climate](https://codeclimate.com/github/CodeBrauer/YouTube2Spotify/badges/gpa.svg)](https://codeclimate.com/github/CodeBrauer/YouTube2Spotify)
+
 # Installation
 
 **This is currently in development stage!**
