@@ -17,7 +17,9 @@ date_default_timezone_set($config['timezone']);
 set_exception_handler(['Acme\Error', 'handle']);
 
 // for debug
-if (gethostname() === 'CodeBrauer.local') { include '../ref/ref.php'; }
+if (gethostname() === 'CodeBrauer.local') {
+    include '../ref/ref.php';
+}
 
 $args->check();
 list($url, $arg2) = $args->process();
@@ -28,7 +30,7 @@ if ($arg2 == 'only-uri') {
     ob_start();
 }
 
-$nextPageToken = NULL;
+$nextPageToken = null;
 do {
     $playlistItemsResponse = $youtube->playlistItems->listPlaylistItems('snippet', array(
         'playlistId' => rawurlencode($url),
@@ -47,7 +49,7 @@ do {
         }
     }
     $nextPageToken = $playlistItemsResponse['nextPageToken'];
-} while ($nextPageToken != NULL);
+} while ($nextPageToken != null);
 
 file_put_contents('spotify-uris.txt', implode("\n", $result));
 
@@ -65,13 +67,10 @@ if (stripos(php_uname(), 'darwin') !== false) {
 }
 
 Output::blankLine();
-Output::put('Just paste them (from your clipboard) into your empty spotify playlist (must be a client, not the webplayer)');
+Output::put('Just paste them from your clipboard in a spotify playlist. (Does not work with play.spotify.com');
 Output::blankLine();
 
 if ($arg2 == 'only-uri') {
     ob_end_clean();
     Output::put(shell_exec('cat spotify-uris.txt'));
 }
-
-# debug URL
-# https://www.youtube.com/playlist?list=PLhzswTGE9_z92Pm5HF-_A-YYR1dOuuUL-
