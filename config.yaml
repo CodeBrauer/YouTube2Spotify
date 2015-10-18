@@ -1,5 +1,5 @@
 timezone: 'Europe/Berlin'
-google_developer_key: 'AIzaSyDmRGJw9BOneRjqrRD8-UyTn48N4_DNidI'
+google_developer_key: ''
 ignore_video_title: 
 - '|'
 - '*'
