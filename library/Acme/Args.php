@@ -33,8 +33,8 @@ class Args
             $copy = true;
         }
 
-        if (strpos($this->argv[1], 'youtube.com/playlist') === false) {
             return [$this->argv[1], $copy];
+        if (strpos($this->argv[1], 'youtube.com') === false) {
         }
 
         $urlParts = parse_url($this->argv[1], PHP_URL_QUERY);
