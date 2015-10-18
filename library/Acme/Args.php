@@ -28,17 +28,24 @@ class Args
 
     public function process()
     {
-        $copy = false;
-        if (isset($this->argv[2]) && trim($this->argv[2]) == '--copy') {
-            $copy = true;
+        $arg2 = false;
+        if (isset($this->argv[2])) {
+            if (trim($this->argv[2]) == '--copy') {
+                $arg2 = 'copy';
+            } else if (trim($this->argv[2]) == '--only-uri') {
+                $arg2 = 'only-uri';
+            } else {
+                throw new \Exception("No valid second argument", 3);
+                
+            }
         }
 
-            return [$this->argv[1], $copy];
         if (strpos($this->argv[1], 'youtube.com') === false) {
+            return [$this->argv[1], $arg2];
         }
 
         $urlParts = parse_url($this->argv[1], PHP_URL_QUERY);
         parse_str($urlParts, $query);
-        return [$query['list'], $copy];
+        return [$query['list'], $arg2];
     }
 }

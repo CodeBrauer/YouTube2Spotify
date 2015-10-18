@@ -20,9 +20,13 @@ set_exception_handler(['Acme\Error', 'handle']);
 if (gethostname() === 'CodeBrauer.local') { include '../ref/ref.php'; }
 
 $args->check();
-list($url, $copy) = $args->process();
+list($url, $arg2) = $args->process();
 
 // action start
+
+if ($arg2 == 'only-uri') {
+    ob_start();
+}
 
 $nextPageToken = NULL;
 do {
@@ -49,7 +53,7 @@ file_put_contents('spotify-uris.txt', implode("\n", $result));
 
 if (stripos(php_uname(), 'darwin') !== false) {
     Output::blankLine();
-    if ($copy) {
+    if ($arg2 == 'copy') {
         shell_exec('cat spotify-uris.txt | pbcopy');
         Output::put('Done! - Now you have your Spotify-URIs in your clipboard', 'success');
     } else {
@@ -63,6 +67,11 @@ if (stripos(php_uname(), 'darwin') !== false) {
 Output::blankLine();
 Output::put('Just paste them (from your clipboard) into your empty spotify playlist (must be a client, not the webplayer)');
 Output::blankLine();
+
+if ($arg2 == 'only-uri') {
+    ob_end_clean();
+    Output::put(shell_exec('cat spotify-uris.txt'));
+}
 
 # debug URL
 # https://www.youtube.com/playlist?list=PLhzswTGE9_z92Pm5HF-_A-YYR1dOuuUL-
