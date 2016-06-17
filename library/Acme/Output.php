@@ -26,6 +26,5 @@ class Output
         for ($i=0; $i < 1; $i++) { 
             echo PHP_EOL;
         }
-        # kacke -> braun und fest
     }
 }
